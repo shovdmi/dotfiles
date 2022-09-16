@@ -1,3 +1,12 @@
+" Reload vimrc
+"so $MYVIMRC
+
+" If you are editting vimrc do:
+"so %
+"source %
+
+"--------------------------------------------
+
 "termencoding utf8
 "scripencoding utf-8
 set encoding=utf-8
@@ -26,12 +35,12 @@ set smartindent
 set hlsearch
 
 "--------------------------------------------
-set incsearch " do incremental searching
-set showmatch " jump to matches when entering regexp
+set incsearch  " do incremental searching
+set showmatch  " jump to matches when entering regexp
 set ignorecase " ignore case when searching
 
 "Smart casesensetive search
-set smartcase 
+set smartcase
 	"/copyright      " Case insensitive
 	"/Copyright      " Case sensitive
 	"/copyright\C    " Case sensitive
@@ -48,18 +57,18 @@ set cscopetag
 
 
 
-set scrolloff=3 " keep 3 lines when scrolling
-set ai " set auto-indenting on for programming
- 
-set showcmd " display incomplete commands
-set nobackup " do not keep a backup file
-set number " show line numbers
+set scrolloff=3     " keep 3 lines when scrolling
+set ai              " set auto-indenting on for programming
+
+set showcmd         " display incomplete commands
+set nobackup        " do not keep a backup file
+set number          " show line numbers
 set relativenumber  " relative number
-set ruler " show the current row and column
+set ruler           " show the current row and column
 
 " Height of the command bar
 set cmdheight=2
- 
+
 
 
 
@@ -74,29 +83,32 @@ set mat=2
 " Accessing the system clipboard
 set clipboard=unnamedplus
 "set clipboard=unnamed
-" Under Windows, the * and + registers are equivalent. For X11 systems, though, they differ. For X11 systems, * is the selection, and + is the cut buffer (like clipboard). 
+" Under Windows, the * and + registers are equivalent. For X11 systems, though, they differ. For X11 systems, * is the selection, and + is the cut buffer (like clipboard).
 
 "To turn off autoindent when you paste code, there's a special "paste" mode.
 set paste
 
 
 set visualbell t_vb= " turn off error beep/flash
-"set novisualbell " turn off visual bell
- 
+"set novisualbell    " turn off visual bell
+
 set backspace=indent,eol,start " make that backspace key work the way it should
- 
-syntax on " turn syntax highlighting on by default
-filetype on " detect type of file
+
+syntax on          " turn syntax highlighting on by default
+filetype on        " detect type of file
 filetype indent on " load indent file for specific file type
 
 	
 "--------------------------------------------
-if has('gui_running')
+if has('gui_running') || has('nvim')
   set guioptions-=T  " no toolbar
-  colorscheme elflord
+  "colorscheme elflord
   set lines=60 columns=108 linespace=0
-  if has('gui_win32')
-    set guifont=DejaVu_Sans_Mono:h10:cANSI
+  if has('gui_win32') || has('gui_win64') || has('win32') || has('win64')
+    "set guifont=DejaVu_Sans_Mono:h10:cANSI
+    "GuiFont DejaVu Sans Mono:h10
+    "set guifont=JetBrains\ Mono\ Thin
+    set guifont=JetBrains\ Mono\ ExtraLight:h10
   else
     set guifont=DejaVu\ Sans\ Mono\ 10
   endif
@@ -105,27 +117,34 @@ endif
 
 " http://vimcasts.org/episodes/show-invisibles/
 " Use the same symbols as TextMate for tabstops and EOLs
+" Dot symbols: • · ∙ ␣  ˷
+" eols : § ↲ ¬ ⇰  ⇢
+" tabs : → ¤ ▸ \u25b8 \<Char-0x25B8>
+" trail: ☻ \u221 ★  ␠
+" extends:⟩,precedes:⟨
 "set invlist
 set list
-"set listchars=tab:\▸,eol:¬
-"set listchars=tab:\u25b8, trail:\u221
-"set listchars=tab:\<Char-0x25B8>
-"THIS works fine in tty console: set listchars=tab:\▸\ ,eol:\↵,trail:\∙,extends:#,nbsp:.
-"Dot symbols: • · ∙
-
-set listchars=tab:\·\ ,trail:\☻,extends:#,nbsp:.
-"Invisible character colors 
+set showbreak=↪
+if has('gui_running') || has('nvim')
+	set listchars=tab:\¤\ ,trail:\☻,extends:#,nbsp:.
+else
+  "THIS works fine in tty console:
+	set listchars=tab:\▸\ ,eol:\↵,trail:\∙,extends:#,nbsp:.
+endif
+"Invisible character colors
 set t_Co=256
-highlight NonText guifg=#0000af 
+highlight NonText guifg=#0000af
 "#080808 "#FaDaD9
-highlight SpecialKey guifg=#0000af 
+highlight SpecialKey guifg=#0000af
  "#080808 "#FaDaD9
+	"	this is an example  
+ "  this is an another example 
 
 set tabstop=2
 " Adds one tab when indenting after {- bracket (при создании новой строки после { скобки, добавляет только один ТАВ
 set softtabstop=1
 
-set cursorline	"highlight current line
+set cursorline  "highlight current line
 
 set nobackup
 set noswapfile
@@ -149,7 +168,7 @@ nnoremap K i<CR><Esc>k$
 " command! W w !sudo tee "%" > /dev/null
 command! W w !sudo dd of=%
 
-map <C-S> :write<CR>
+map  <C-S> :write<CR>
 imap <C-S> <C-O>:write<CR>
 cmap <C-S> <C-C>:write<CR>
 
@@ -165,12 +184,6 @@ imap <F7> <ESC>:w !gcc -o a.out % && ./a.out && read<ENTER><ENTER>i
 " vim-airline
 set laststatus=2
 
-
-"--------------------------------------------
-" reload vimrc
-"so $MYVIMRC 
-" if you are editting vimrc do:
-"so %
 
 "--------------------------------------------
 
