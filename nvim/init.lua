@@ -90,7 +90,7 @@ require('lualine').setup {
 -- Use the same symbols as TextMate for tabstops and EOLs
 -- Dot symbols: • · ∙ ␣  ˷
 -- eols : § ↲ ¬ ⇰  ⇢
--- tabs : → ¤ ▸ \u25b8 \<Char-0x25B8>
+-- tabs : ← → ¤ ▸ \u25b8 \<Char-0x25B8>
 -- trail: ☻ \u221 ★  ␠
 -- extends:⟩,precedes:⟨
 --set invlist
@@ -98,9 +98,9 @@ vim.o.list=true
 vim.o.showbreak='↪'
 
 --vim.cmd [[set listchars=tab:\¤\ ,trail:\☻,extends:#,nbsp:.]]
-vim.opt.listchars={eol = '↲', tab = '▸ ', trail =  "☻"}
+vim.opt.listchars={eol = '↲', tab = '←-→', trail =  "☻"}
 --
 -- Invisible character colors
 --vim.cmd [[set t_Co=256]]
 vim.api.nvim_set_hl(0,'NonText',   { fg='#404060' }) -- "NonText"    for "eol", "extends" and "precedes"
-vim.api.nvim_set_hl(0,'Whitespace',{ ctermfg=155, fg='#a7e0fc' }) -- "Whitespace" for "nbsp", "space", "tab", "multispace", "lead" and "trail"
+vim.api.nvim_set_hl(0,'Whitespace',{ ctermfg=155, fg='#405a66' }) -- "Whitespace" for "nbsp", "space", "tab", "multispace", "lead" and "trail"
