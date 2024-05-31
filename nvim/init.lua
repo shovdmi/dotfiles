@@ -1,5 +1,5 @@
 -- Put this file content into
--- :e ~\\AppData\\Local\\nvim\\init.lua
+-- :e ~\AppData\Local\nvim\init.lua
 
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
