@@ -1,19 +1,6 @@
 -- Put this file content into
 -- :e ~\AppData\Local\nvim\init.lua
-
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
-
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim' -- Packer can manage itself
-  
-  use { 'jedrzejboczar/nvim-dap-cortex-debug', requires = 'mfussenegger/nvim-dap' }
-  use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
-
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-
-  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
-end)
+-- :e ~/.conig/init.lua
 
 -- Keymap
 -- vim.keymap.set('n', '<leader>pv', vim.cmd('Explore'))
