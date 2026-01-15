@@ -91,11 +91,21 @@ vim.api.nvim_exec([[
 ------------------------------------------------------------------------------------------------
 -- Native Neovim LSP : https://lugh.ch/switching-to-neovim-native-lsp.html
 -- New LSP-related keyboard mappings https://neovim.io/doc/user/news-0.11.html#_defaults
+-- :checkhealth vim.lsp
+
+clangd_path = vim.fn.expand('$HOME/.config/Code/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/21.1.0/clangd_21.1.0/bin')
 
 vim.lsp.config.clangd = {
-  cmd = { 'clangd', '--background-index' },
-  root_markers = { 'compile_commands.json', 'compile_flags.txt', 'build/compile_commands.json' },
-  filetypes = { 'c', 'cpp' },
+  cmd = {
+    clangd_path .. '/clangd', {
+        '--background-index',
+        '--compile-commands-dir=build',
+        '-pretty',
+        '-j14',
+      }
+    },
+    root_markers = { 'compile_commands.json', 'compile_flags.txt', 'build/compile_commands.json' },
+    filetypes = { 'c', 'cpp' },
 }
 
 vim.lsp.enable({'clangd'})
