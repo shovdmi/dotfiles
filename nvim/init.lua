@@ -7,32 +7,7 @@
 -- ~/.local/share/nvim
 -- ~/.local/state/nvim
 
-
--- Bootstrap lazy.nvim
---local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
---if not (vim.uv or vim.loop).fs_stat(lazypath) then
---  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
---  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
---  if vim.v.shell_error ~= 0 then
---    vim.api.nvim_echo({
---      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
---      { out, "WarningMsg" },
---      { "\nPress any key to exit..." },
---    }, true, {})
---    vim.fn.getchar()
---    os.exit(1)
---  end
---end
---vim.opt.rtp:prepend(lazypath)
-
 ------------------------------------------------------------------------------------------------
-
---require("config.lazy") -- :e ~/.config/nvim/lua/config/lazy.lua
---require("plugins")     -- :e ~\AppData\Local\nvim\lua\plugins.lua
---require("options")     -- :e ~\AppData\Local\nvim\lua\options.lua
-
-------------------------------------------------------------------------------------------------
-
 -- Keymap
 -- vim.keymap.set('n', '<leader>pv', vim.cmd('Explore'))
 vim.keymap.set('v', 'J', ':m \'>+1<CR>gv=gv')
@@ -58,12 +33,10 @@ vim.keymap.set('n', '<S-Insert>', '"+p')
 
 vim.keymap.set('n', 'Q', '<nop>')
 
-
 -- Settings 
 vim.g.mapleader     = ' '
 
 ------------------------------------------------------------------------------------------------
-
 vim.opt.number      = true  -- numbered lines
 vim.opt.cursorline  = true
 vim.opt.softtabstop = 2
@@ -88,7 +61,6 @@ vim.opt.undofile    = true
 vim.o.termguicolors = true
 
 ------------------------------------------------------------------------------------------------
-
 -- http://vimcasts.org/episodes/show-invisibles/
 -- Use the same symbols as TextMate for tabstops and EOLs
 -- Dot symbols: • · ∙ ␣  ˷
@@ -116,7 +88,6 @@ vim.api.nvim_exec([[
   augroup end
 ]], false)
 
-
 ------------------------------------------------------------------------------------------------
 -- Native Neovim LSP : https://lugh.ch/switching-to-neovim-native-lsp.html
 -- New LSP-related keyboard mappings https://neovim.io/doc/user/news-0.11.html#_defaults
@@ -130,9 +101,7 @@ vim.lsp.config.clangd = {
 vim.lsp.enable({'clangd'})
 
 vim.diagnostic.config({
-  -- Use the default configuration
   virtual_lines = true
-
   -- Alternatively, customize specific options
   -- virtual_lines = {
   --  -- Only show virtual line diagnostics for the current cursor line
@@ -140,7 +109,7 @@ vim.diagnostic.config({
   -- },
 })
 
-------------- Enabling builtin autocomplite (edit mode: C-X C-O   )
+------------- Enabling builtin autocomplite
 --  Hover K, Autocomplete (omnifunc) ctrl+x ctrl+o, Code actions gra
 local lsp_au_group = vim.api.nvim_create_augroup('lsp_au_group', {clear = true})
 vim.api.nvim_create_autocmd({'LspAttach'}, {
