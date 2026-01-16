@@ -3,10 +3,7 @@
 -- :e ~/.conig/init.lua
 
 -- Clear configs:
--- ~/.config/nvim
--- ~/.local/share/nvim
--- ~/.local/state/nvim
-
+-- rm -rf ~/.local/share/nvim/; rm -rf ~/.local/state/nvim/; rm -rf  ~/.config/nvim/; mkdir ~/.config/nvim/
 ------------------------------------------------------------------------------------------------
 -- Keymap
 -- vim.keymap.set('n', '<leader>pv', vim.cmd('Explore'))
@@ -139,3 +136,48 @@ vim.o.winborder = 'rounded' -- for Hover
 -- use ctrl+space for code completion with omni function
 vim.keymap.set('i', '<C-Space>', '<C-x><C-o>')
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "LSP: Go to definition" })
+
+------------------------------------------------------------------------------------------------
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({ { "Failed to clone lazy.nvim:\n", "ErrorMsg" }, { out, "WarningMsg" }, { "\nPress any key to exit..." }, }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+  spec = {
+    { "nvim-tree/nvim-web-devicons", opts = {} },
+    { 'nvim-mini/mini.icons', version = '*' },
+    { "folke/which-key.nvim",
+      event = "VeryLazy",
+      opts = {
+        -- your configuration comes here
+      },
+      keys = {
+        {
+          "<leader>?",
+          function()
+            require("which-key").show({ global = false })
+          end,
+          desc = "Buffer Local Keymaps (which-key)",
+        },
+      },
+    },
+    { "nvim-lualine/lualine.nvim",
+      event = "VeryLazy",
+      opts = function()
+        return {
+          --[[add your custom lualine config here]]
+        }
+        end,
+    },
+  },
+  --install = { colorscheme = { "habamax" } },
+  checker = { enabled = false },
+})
