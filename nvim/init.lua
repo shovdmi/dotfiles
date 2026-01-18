@@ -177,7 +177,107 @@ require("lazy").setup({
         }
         end,
     },
+    { "mfussenegger/nvim-dap",
+      lazy = true,
+      -- Copied from LazyVim/lua/lazyvim/plugins/extras/dap/core.lua and
+      -- modified.
+      keys = {
+        { "<F9>",
+          function() require("dap").toggle_breakpoint() end,
+          desc = "Toggle Breakpoint"
+        },
+        { "<leader>db",
+          function() require("dap").toggle_breakpoint() end,
+          desc = "Toggle Breakpoint"
+        },
+
+        { "<F5>",
+          function() require("dap").continue() end,
+          desc = "Continue"
+        },
+        { "<leader>dc",
+          function() require("dap").continue() end,
+          desc = "Continue"
+        },
+
+        { "<F10>",
+          function() require("dap").step_over() end,
+          desc = "Continue"
+        },
+        { "<F11>",
+          function() require("dap").step_into() end,
+          desc = "Continue"
+        },
+
+        { "<leader>dC",
+          function() require("dap").run_to_cursor() end,
+          desc = "Run to Cursor"
+        },
+
+        { "<leader>dT",
+          function() require("dap").terminate() end,
+          desc = "Terminate"
+        },
+      },
+    },
+    -- :lua require("dapui").open()
+    { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} }
   },
   --install = { colorscheme = { "habamax" } },
   checker = { enabled = false },
 })
+
+
+
+local dap = require("dap")
+dap.adapters.cortexm_gdb = {
+  type = "executable",
+  command = "arm-none-eabi-gdb-py3",
+  args = { "--interpreter=dap",
+    "--eval-command", "set print pretty on", 
+    "--eval-command", "set confirm off", 
+    "--eval-command", "set pagination off",
+    "--eval-command", "set set verbose on",
+    "--eval-command", "set trace-commands on",
+--  "--quiet",
+    "-iex", "set debug dap-log-level 2",
+    "-iex", "set debug dap-log-file gdb-dap.log",
+    "-ex", "set exception-verbose on",
+    "-ex", "set exception-debugger on",
+    "-ex", "set debug target on",
+    --vim.fn.getcwd() .. '/build/firmware.elf',
+    --"--eval-command", "target extended-remote :2331",
+  },
+  options = { initialize_timeout_sec = 8, },
+}
+
+dap.configurations.c = {
+  {
+    name = "Debug (run)",
+    type = "cortexm_gdb",
+    --request = "launch",
+    request = "attach",
+    program = function()
+        return vim.fn.getcwd() .. '/build/firmware.elf'
+      end,
+    --executable  = vim.fn.getcwd() .. '/build/firmware.elf',
+    cwd = vim.fn.getcwd(),
+    target = ":2331",
+    stopAtBeginningOfMainSubprogram = false,
+  },
+}
+
+dap.configurations.cpp = dap.configurations.c
+
+-- use :DapShowLog
+-- https://www.johntobin.ie/blog/debugging_in_neovim_with_nvim-dap/
+-- :lua require("dapui").open()
+-- :Lazy
+-- :lua vim.print(require('dap').configurations.c)
+-- :lua vim.print(require('dap').configurations[vim.bo.filetype])
+require("dapui").setup()
+--:DapSetLogLevel TRACE
+dap.set_log_level('TRACE')
+
+vim.fn.sign_define('DapBreakpoint', { text = '🛑', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapStopped',    { text = '▶️', texthl = '', linehl = '', numhl = ''})
